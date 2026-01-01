@@ -29,6 +29,9 @@ export default async function AdminSchedulePage() {
     },
   })
 
+  // Type for visit with relations
+  type Visit = typeof visits[0]
+
   return (
     <main className="container mx-auto p-8 max-w-6xl">
       <h1 className="text-3xl font-bold mb-6">Schedule Management</h1>
@@ -62,7 +65,7 @@ export default async function AdminSchedulePage() {
                 </td>
               </tr>
             ) : (
-              visits.map((visit) => (
+              visits.map((visit: Visit) => (
                 <tr key={visit.id}>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="text-sm font-medium text-gray-900">
@@ -93,7 +96,7 @@ export default async function AdminSchedulePage() {
                     <div className="text-sm text-gray-900">
                       {visit.evvEvents.length > 0 ? (
                         <ul className="list-disc list-inside">
-                          {visit.evvEvents.map((event: { id: string; kind: string; timestamp: Date }) => (
+                          {visit.evvEvents.map((event) => (
                             <li key={event.id}>
                               {event.kind} at {new Date(event.timestamp).toLocaleTimeString()}
                             </li>
