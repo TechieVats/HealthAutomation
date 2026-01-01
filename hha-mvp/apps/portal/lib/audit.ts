@@ -1,5 +1,4 @@
 import { prisma } from './prisma'
-import { Prisma } from '@prisma/client'
 
 export interface AuditLogOptions {
   who: string
@@ -21,7 +20,7 @@ export async function logAudit(options: AuditLogOptions): Promise<void> {
         action: options.action,
         entity: options.entity,
         entityId: options.entityId,
-        metaJson: (options.meta || {}) as Prisma.InputJsonValue, // Cast to Prisma's InputJsonValue type
+        metaJson: options.meta || {}, // Prisma accepts Record<string, unknown> for JSON fields
       },
     })
   } catch (error) {
