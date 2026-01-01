@@ -1,6 +1,9 @@
 import { prisma } from '@/lib/prisma'
 import ScheduleActions from './ScheduleActions'
 
+// Force dynamic rendering - this page queries the database
+export const dynamic = 'force-dynamic'
+
 export default async function AdminSchedulePage() {
   // Get all scheduled and in-progress visits
   const visits = await prisma.visit.findMany({

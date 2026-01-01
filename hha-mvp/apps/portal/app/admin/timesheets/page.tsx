@@ -1,6 +1,9 @@
 import { buildTimesheet } from '@/lib/payroll'
 import TimesheetPreview from './TimesheetPreview'
 
+// Force dynamic rendering - this page queries the database
+export const dynamic = 'force-dynamic'
+
 interface PageProps {
   searchParams: Promise<{ week?: string }>
 }

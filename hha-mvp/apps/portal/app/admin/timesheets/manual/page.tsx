@@ -1,6 +1,9 @@
 import { prisma } from '@/lib/prisma'
 import ManualEntryForm from './ManualEntryForm'
 
+// Force dynamic rendering - this page queries the database
+export const dynamic = 'force-dynamic'
+
 export default async function ManualTimesheetPage() {
   const employees = await prisma.employee.findMany({
     orderBy: {

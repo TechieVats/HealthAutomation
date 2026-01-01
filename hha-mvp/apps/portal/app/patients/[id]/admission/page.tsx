@@ -2,6 +2,9 @@ import { prisma } from '@/lib/prisma'
 import { notFound } from 'next/navigation'
 import AdmissionActions from './AdmissionActions'
 
+// Force dynamic rendering - this page queries the database
+export const dynamic = 'force-dynamic'
+
 interface PageProps {
   params: Promise<{ id: string }>
 }
