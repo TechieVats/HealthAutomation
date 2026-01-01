@@ -1,0 +1,22 @@
+{
+  "name": "@hha-mvp/testing",
+  "version": "0.1.0",
+  "description": "Test utilities and synthetic data generators",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "type-check": "tsc --noEmit",
+    "clean": "rm -rf dist",
+    "seed": "tsx src/seed.ts"
+  },
+  "dependencies": {
+    "@hha-mvp/domain": "workspace:*",
+    "@prisma/client": "^5.19.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.2",
+    "tsx": "^4.20.6"
+  }
+}
+

@@ -1,0 +1,7 @@
+{
+  "name": "@hha-mvp/workflows",
+  "version": "0.1.0",
+  "description": "n8n workflow definitions and notes",
+  "private": true
+}
+

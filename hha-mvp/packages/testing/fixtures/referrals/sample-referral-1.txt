@@ -1,0 +1,16 @@
+PATIENT REFERRAL FORM
+
+First Name: John
+Last Name: Smith
+Date of Birth: 03/15/1945
+Payer: Medicare
+
+REASON FOR REFERRAL:
+Patient requires skilled nursing services for post-surgical care.
+Diagnosis: Post-operative recovery
+Services Needed: Skilled Nursing, Physical Therapy
+
+REFERRING PROVIDER:
+Dr. Jane Doe, MD
+Hospital: General Hospital
+

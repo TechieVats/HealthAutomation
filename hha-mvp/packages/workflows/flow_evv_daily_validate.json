@@ -1,0 +1,149 @@
+{
+  "name": "EVV Daily Validation Flow",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 * * * *"
+            }
+          ]
+        }
+      },
+      "id": "hourly-cron",
+      "name": "Every Hour",
+      "type": "n8n-nodes-base.cron",
+      "typeVersion": 1,
+      "position": [250, 300],
+      "notes": "Runs every hour"
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000' }}/api/visits/pending-validation",
+        "authentication": "none",
+        "options": {}
+      },
+      "id": "fetch-visits",
+      "name": "Fetch Visits with Events",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [450, 300],
+      "notes": "Gets visits that have EVV events but not yet validated"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "visit",
+              "name": "visit",
+              "value": "={{ $json }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "loop-visits",
+      "name": "Loop Visits",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [650, 300]
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000' }}/api/evv/validate?visitId={{ $json.visit.id }}",
+        "authentication": "none",
+        "method": "GET",
+        "options": {}
+      },
+      "id": "validate-visit",
+      "name": "Validate Visit",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [850, 300],
+      "notes": "Calls /api/evv/validate endpoint"
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000' }}/api/audit/events",
+        "authentication": "none",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ {\n  \"who\": \"system\",\n  \"action\": \"evv_validation\",\n  \"entity\": \"visit\",\n  \"entityId\": $json.visit.id,\n  \"metaJson\": {\n    \"verified\": $json.verified,\n    \"reasons\": $json.reasons\n  }\n} }}",
+        "options": {}
+      },
+      "id": "post-audit",
+      "name": "Post Audit Event",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1050, 300],
+      "notes": "Creates AuditEvent record for validation result"
+    }
+  ],
+  "connections": {
+    "Every Hour": {
+      "main": [
+        [
+          {
+            "node": "Fetch Visits with Events",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Visits with Events": {
+      "main": [
+        [
+          {
+            "node": "Loop Visits",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Visits": {
+      "main": [
+        [
+          {
+            "node": "Validate Visit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate Visit": {
+      "main": [
+        [
+          {
+            "node": "Post Audit Event",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z",
+      "id": "evv",
+      "name": "evv"
+    }
+  ],
+  "triggerCount": 1,
+  "updatedAt": "2024-01-01T00:00:00.000Z",
+  "versionId": "1"
+}
+

@@ -1,0 +1,12 @@
+HOME HEALTH REFERRAL
+
+Patient Name: Mary Johnson
+DOB: 07/22/1958
+Insurance: Medicaid
+
+CLINICAL INFORMATION:
+Patient presents with chronic heart failure requiring home health monitoring.
+Services: Skilled Nursing, Medication Management
+
+REFERRING SOURCE: Physician Office
+

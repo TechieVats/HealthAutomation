@@ -1,0 +1,57 @@
+# Dependencies
+node_modules
+.pnp
+.pnp.js
+
+# Testing
+coverage
+*.log
+
+# Next.js
+.next/
+out/
+build/
+dist/
+
+# Production
+*.pem
+
+# Misc
+.DS_Store
+*.pem
+
+# Debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Local env files
+.env*.local
+.env
+
+# Vercel
+.vercel
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# Prisma
+**/prisma/migrations/*.sql
+!**/prisma/migrations/.gitkeep
+
+# Uploads
+**/uploads/*
+!**/uploads/.gitkeep
+
+# n8n
+**/n8n-data/*
+!**/n8n-data/.gitkeep
+
+# IDE
+.idea
+.vscode
+*.swp
+*.swo
+

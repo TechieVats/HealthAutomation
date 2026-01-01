@@ -1,0 +1,59 @@
+{
+  "name": "healthautomation",
+  "version": "1.0.0",
+  "description": "Home Health Automation MVP using free/open-source tools",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "db:generate": "prisma generate",
+    "db:push": "prisma db push",
+    "db:migrate": "prisma migrate dev",
+    "db:seed": "tsx prisma/seed.ts",
+    "test": "jest",
+    "test:watch": "jest --watch"
+  },
+  "keywords": [
+    "health",
+    "automation",
+    "home-health"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@auth/core": "^0.37.1",
+    "@auth/prisma-adapter": "^2.11.1",
+    "@types/jsonwebtoken": "^9.0.7",
+    "@types/multer": "^1.4.12",
+    "@types/node": "^22.10.5",
+    "@types/react": "^18.3.17",
+    "@types/react-dom": "^18.3.4",
+    "autoprefixer": "^10.4.20",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^1.4.5-lts.1",
+    "next": "^16.0.1",
+    "next-auth": "^5.0.0-beta.25",
+    "postcss": "^8.4.49",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tailwindcss": "^3.4.17",
+    "tesseract.js": "^5.1.0",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@prisma/client": "^5.19.1",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.0",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/jest": "^30.0.0",
+    "jest": "^30.2.0",
+    "jest-environment-jsdom": "^30.2.0",
+    "prisma": "^5.19.1",
+    "ts-jest": "^29.4.5",
+    "tsx": "^4.20.6",
+    "typescript": "^5.7.2"
+  }
+}

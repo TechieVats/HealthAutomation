@@ -1,0 +1,43 @@
+{
+  "name": "Visit Verification",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [{"mode": "everyMinute"}]
+        }
+      },
+      "id": "poll-evv",
+      "name": "Poll EVV Events",
+      "type": "n8n-nodes-base.cron",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [{
+            "value1": "={{$json.verified}}",
+            "value2": true
+          }]
+        }
+      },
+      "id": "check-verified",
+      "name": "Check Verified",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [450, 300]
+    }
+  ],
+  "connections": {
+    "Poll EVV Events": {
+      "main": [[{ "node": "Check Verified", "type": "main", "index": 0 }]]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": []
+}
+

@@ -1,0 +1,112 @@
+{
+  "name": "Admission Intake Flow",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "/var/data/referrals",
+        "options": {
+          "fileType": "pdf"
+        }
+      },
+      "id": "folder-watch",
+      "name": "Watch Referrals Folder",
+      "type": "n8n-nodes-base.localFileTrigger",
+      "typeVersion": 1,
+      "position": [250, 300],
+      "webhookId": "admission-intake-trigger"
+    },
+    {
+      "parameters": {
+        "operation": "executeCommand",
+        "command": "echo 'OCR processing would happen here'"
+      },
+      "id": "ocr-step",
+      "name": "OCR Processing",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [450, 300],
+      "notes": "In production, this would call Tesseract OCR service"
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000' }}/api/referrals/upload",
+        "authentication": "none",
+        "options": {
+          "bodyContentType": "multipart-form-data"
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={}",
+        "sendBinaryData": true,
+        "binaryPropertyName": "file",
+        "fileName": "={{ $json.name }}"
+      },
+      "id": "upload-to-api",
+      "name": "Upload to API",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [650, 300],
+      "notes": "Uploads PDF to /api/referrals/upload endpoint"
+    },
+    {
+      "parameters": {},
+      "id": "log-result",
+      "name": "Log Result",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [850, 300]
+    }
+  ],
+  "connections": {
+    "Watch Referrals Folder": {
+      "main": [
+        [
+          {
+            "node": "OCR Processing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OCR Processing": {
+      "main": [
+        [
+          {
+            "node": "Upload to API",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload to API": {
+      "main": [
+        [
+          {
+            "node": "Log Result",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z",
+      "id": "admission",
+      "name": "admission"
+    }
+  ],
+  "triggerCount": 1,
+  "updatedAt": "2024-01-01T00:00:00.000Z",
+  "versionId": "1"
+}
+

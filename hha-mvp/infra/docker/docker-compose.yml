@@ -1,0 +1,89 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: hha-postgres
+    environment:
+      POSTGRES_USER: hha
+      POSTGRES_PASSWORD: hha
+      POSTGRES_DB: hha
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U hha"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  n8n:
+    image: n8nio/n8n:latest
+    container_name: hha-n8n
+    environment:
+      - DB_TYPE=postgresdb
+      - DB_POSTGRESDB_HOST=postgres
+      - DB_POSTGRESDB_PORT=5432
+      - DB_POSTGRESDB_DATABASE=hha
+      - DB_POSTGRESDB_USER=hha
+      - DB_POSTGRESDB_PASSWORD=hha
+      - N8N_BASIC_AUTH_ACTIVE=true
+      - N8N_BASIC_AUTH_USER=admin
+      - N8N_BASIC_AUTH_PASSWORD=admin
+      - N8N_HOST=localhost
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=http
+      - WEBHOOK_URL=http://localhost:5678
+    ports:
+      - "5678:5678"
+    volumes:
+      - n8n-data:/home/node/.n8n
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+  documenso:
+    image: ghcr.io/documenso/documenso:latest
+    container_name: hha-documenso
+    environment:
+      - DATABASE_URL=postgresql://hha:hha@postgres:5432/hha
+      - NEXT_AUTH_URL=http://localhost:3001
+      - NEXT_AUTH_SECRET=dev-secret-change-in-production
+      - DOCUMENSO_DATABASE_URL=postgresql://hha:hha@postgres:5432/hha
+    ports:
+      - "3001:3000"
+    volumes:
+      - documenso-data:/data
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+  metabase:
+    image: metabase/metabase:latest
+    container_name: hha-metabase
+    environment:
+      - MB_DB_TYPE=postgres
+      - MB_DB_DBNAME=metabase
+      - MB_DB_PORT=5432
+      - MB_DB_USER=hha
+      - MB_DB_PASS=hha
+      - MB_DB_HOST=postgres
+    ports:
+      - "3002:3000"
+    volumes:
+      - metabase-data:/metabase-data
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  postgres-data:
+  n8n-data:
+  documenso-data:
+  metabase-data:
+
