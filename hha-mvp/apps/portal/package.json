@@ -21,7 +21,7 @@
     "@hha-mvp/adapters": "workspace:*",
     "@hha-mvp/domain": "workspace:*",
     "@prisma/client": "^5.19.1",
-    "next": "^16.0.1",
+    "next": "^16.1.1",
     "next-auth": "^5.0.0-beta.25",
     "pdf-parse": "^1.1.4",
     "react": "^18.3.1",
