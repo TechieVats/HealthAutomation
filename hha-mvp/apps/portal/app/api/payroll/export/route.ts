@@ -28,7 +28,7 @@ export async function GET(request: NextRequest) {
     const headers = ['employeeId', 'name', 'date', 'minutes', 'type', 'visitId']
     const csvRows = [
       headers.join(','),
-      ...rows.map(row => [
+      ...rows.map((row) => [
         row.employeeId,
         `"${row.name}"`,
         row.date,

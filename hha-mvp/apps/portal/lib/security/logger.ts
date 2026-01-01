@@ -56,7 +56,7 @@ function redactValue(value: unknown): unknown {
   }
 
   if (Array.isArray(value)) {
-    return value.map(redactValue)
+    return value.map((item: unknown) => redactValue(item))
   }
 
   return value

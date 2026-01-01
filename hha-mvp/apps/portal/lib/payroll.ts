@@ -120,8 +120,11 @@ export async function buildTimesheet(weekStart: Date): Promise<TimesheetRow[]> {
     },
   })
   
+  // Type for timesheet row with employee
+  type TimesheetRowWithEmployee = typeof allTimesheetRows[0]
+  
   // Filter for manual entries (visitId is null)
-  const manualRows = allTimesheetRows.filter(row => row.visitId === null)
+  const manualRows = allTimesheetRows.filter((row: TimesheetRowWithEmployee) => row.visitId === null)
 
   for (const row of manualRows) {
     // Extract date from createdAt (or use a separate date field if available)
