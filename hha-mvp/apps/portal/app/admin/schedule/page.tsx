@@ -1,5 +1,20 @@
 import { prisma } from '@/lib/prisma'
 import ScheduleActions from './ScheduleActions'
+import type { Prisma } from '@prisma/client'
+
+type VisitWithRelations = Prisma.VisitGetPayload<{
+  include: {
+    patient: {
+      select: {
+        id: true
+        mrn: true
+        firstName: true
+        lastName: true
+      }
+    }
+    evvEvents: true
+  }
+}>
 
 export default async function AdminSchedulePage() {
   // Get all scheduled and in-progress visits
@@ -62,7 +77,7 @@ export default async function AdminSchedulePage() {
                 </td>
               </tr>
             ) : (
-              visits.map((visit) => (
+              visits.map((visit: VisitWithRelations) => (
                 <tr key={visit.id}>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="text-sm font-medium text-gray-900">
@@ -93,7 +108,7 @@ export default async function AdminSchedulePage() {
                     <div className="text-sm text-gray-900">
                       {visit.evvEvents.length > 0 ? (
                         <ul className="list-disc list-inside">
-                          {visit.evvEvents.map((event) => (
+                          {visit.evvEvents.map((event: { id: string; kind: string; timestamp: Date }) => (
                             <li key={event.id}>
                               {event.kind} at {new Date(event.timestamp).toLocaleTimeString()}
                             </li>
