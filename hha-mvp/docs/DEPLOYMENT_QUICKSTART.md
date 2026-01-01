@@ -40,18 +40,70 @@ This is the **simplest and fastest** way to deploy your Home Health Automation M
    - Click "New Project"
    - Organization: Create new or use existing
    - Name: `hha-mvp`
-   - Database Password: **Save this password!** (you'll need it)
+   - **Database Password**: ⚠️ **THIS IS THE PASSWORD YOU NEED!**
+     - You will **create this password yourself** when creating the project
+     - **Make it strong** (at least 12 characters, mix of letters, numbers)
+     - **SAVE IT IMMEDIATELY** - Write it down or save it in a password manager
+     - **Example**: `MySecurePass123!` or `HHA2024#Secure`
+     - ⚠️ **You cannot see this password again** if you forget it (you'll need to reset it)
    - Region: Choose closest to you
    - Click "Create new project"
    - Wait 2-3 minutes for setup
+   
+   **💡 Tip**: Use a password manager or write it down - you'll need it in Step 3!
 
-3. **Get connection string**:
-   - Go to: **Settings** → **Database**
-   - Scroll to "Connection string"
-   - Select "URI" tab
-   - Copy the connection string
-   - It looks like: `postgresql://postgres.[ref]:[YOUR-PASSWORD]@aws-0-[region].pooler.supabase.com:6543/postgres`
-   - **Replace `[YOUR-PASSWORD]` with your actual password**
+3. **Get connection string** (This is the tricky part!):
+   
+   **Step 3a: Find your connection string**
+   - In Supabase dashboard, go to: **Settings** (gear icon) → **Database**
+   - Scroll down to find "Connection string" section
+   - You'll see several tabs: "URI", "JDBC", "Golang", etc.
+   - Click on the **"URI"** tab
+   - You'll see a connection string that looks like one of these:
+     
+     **Direct Connection** (port 5432) - Most common:
+     ```
+     postgresql://postgres:[YOUR-PASSWORD]@db.xxxxxxxxxxxxx.supabase.co:5432/postgres
+     ```
+     
+     **OR Pooler Connection** (port 6543) - Alternative:
+     ```
+     postgresql://postgres.xxxxxxxxxxxxx:[YOUR-PASSWORD]@aws-0-us-west-1.pooler.supabase.com:6543/postgres
+     ```
+     
+     **✅ Both work!** Use whichever one Supabase shows you. The Direct connection (port 5432) is perfectly fine!
+   
+   **Step 3b: Replace the password placeholder**
+   - The connection string will have `[YOUR-PASSWORD]` as a placeholder
+   - You need to replace `[YOUR-PASSWORD]` with the **actual password you set when creating the project**
+   - **Where to find your password?**
+     - If you saved it when creating the project → use that
+     - If you forgot it → Go to **Settings** → **Database** → Click "Reset database password" (or check project settings)
+   
+   **Step 3c: URL-encode your password (if it has special characters)**
+   - If your password contains special characters like `@`, `#`, `$`, `%`, etc., you need to URL-encode them
+   - Example: If password is `MyP@ss#123`, it becomes `MyP%40ss%23123`
+   - Or use an online tool: https://www.urlencoder.org/
+   
+   **Final connection string examples:**
+   
+   **Direct Connection format** (what you likely have):
+   ```
+   postgresql://postgres:MyPassword123@db.xxxxxxxxxxxxx.supabase.co:5432/postgres
+   ```
+   
+   **Pooler Connection format** (alternative):
+   ```
+   postgresql://postgres.xxxxxxxxxxxxx:MyPassword123@aws-0-us-west-1.pooler.supabase.com:6543/postgres
+   ```
+   
+   **⚠️ Important Notes:**
+   - **Both formats work perfectly!** Use the one Supabase shows you
+   - Direct connection (port 5432) is great for development
+   - Pooler connection (port 6543) is better for production with many connections
+   - Make sure there are **no spaces** in the connection string
+   - **Remove the brackets** `[` and `]` when replacing `[YOUR-PASSWORD]`
+   - The password goes **directly** in place of `[YOUR-PASSWORD]` (no brackets)
 
 4. **Run database migrations**:
    ```bash
