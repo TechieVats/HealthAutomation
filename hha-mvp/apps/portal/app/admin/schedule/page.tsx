@@ -31,6 +31,7 @@ export default async function AdminSchedulePage() {
 
   // Type for visit with relations
   type Visit = typeof visits[0]
+  type EvvEvent = Visit['evvEvents'][0]
 
   return (
     <main className="container mx-auto p-8 max-w-6xl">
@@ -96,7 +97,7 @@ export default async function AdminSchedulePage() {
                     <div className="text-sm text-gray-900">
                       {visit.evvEvents.length > 0 ? (
                         <ul className="list-disc list-inside">
-                          {visit.evvEvents.map((event) => (
+                          {visit.evvEvents.map((event: EvvEvent) => (
                             <li key={event.id}>
                               {event.kind} at {new Date(event.timestamp).toLocaleTimeString()}
                             </li>
