@@ -1,5 +1,5 @@
 {
-  "buildCommand": "cd ../.. && pnpm install && pnpm --filter portal build",
+  "buildCommand": "cd ../.. && pnpm install && pnpm --filter @hha-mvp/domain build && pnpm --filter @hha-mvp/adapters build && cd apps/portal && pnpm db:generate && pnpm build",
   "outputDirectory": "apps/portal/.next",
   "installCommand": "cd ../.. && pnpm install",
   "framework": "nextjs",

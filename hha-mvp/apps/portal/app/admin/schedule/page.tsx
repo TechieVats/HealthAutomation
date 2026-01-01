@@ -1,20 +1,5 @@
 import { prisma } from '@/lib/prisma'
 import ScheduleActions from './ScheduleActions'
-import type { Prisma } from '@prisma/client'
-
-type VisitWithRelations = Prisma.VisitGetPayload<{
-  include: {
-    patient: {
-      select: {
-        id: true
-        mrn: true
-        firstName: true
-        lastName: true
-      }
-    }
-    evvEvents: true
-  }
-}>
 
 export default async function AdminSchedulePage() {
   // Get all scheduled and in-progress visits
@@ -77,7 +62,7 @@ export default async function AdminSchedulePage() {
                 </td>
               </tr>
             ) : (
-              visits.map((visit: VisitWithRelations) => (
+              visits.map((visit) => (
                 <tr key={visit.id}>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="text-sm font-medium text-gray-900">
