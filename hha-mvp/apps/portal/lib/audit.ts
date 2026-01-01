@@ -20,7 +20,7 @@ export async function logAudit(options: AuditLogOptions): Promise<void> {
         action: options.action,
         entity: options.entity,
         entityId: options.entityId,
-        metaJson: options.meta || {}, // Prisma accepts Record<string, unknown> for JSON fields
+        metaJson: options.meta ? JSON.parse(JSON.stringify(options.meta)) : null, // Convert to JSON-compatible format
       },
     })
   } catch (error) {

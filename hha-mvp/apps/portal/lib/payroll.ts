@@ -46,9 +46,12 @@ export async function buildTimesheet(weekStart: Date): Promise<TimesheetRow[]> {
 
   // Process each visit
   for (const visit of visits) {
+    // Type for evvEvent
+    type EvvEvent = typeof visit.evvEvents[0]
+    
     // Get clock in and clock out events
-    const clockIn = visit.evvEvents.find(e => e.kind === 'clock_in')
-    const clockOut = visit.evvEvents.find(e => e.kind === 'clock_out')
+    const clockIn = visit.evvEvents.find((e: EvvEvent) => e.kind === 'clock_in')
+    const clockOut = visit.evvEvents.find((e: EvvEvent) => e.kind === 'clock_out')
 
     // Calculate minutes from events or use default
     let minutes = 60 // Default 1 hour if no events
